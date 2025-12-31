@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Cozy Space for Akkie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --warm-cream: #fdfaf1; --soft-green: #d8e2dc; --ghibli-pink: #fec5bb; --dusty-rose: #e8a598; --sky: #e0f2f1; }
+        * { box-sizing: border-box; cursor: url('https://cur.cursors-4u.net/symbols/sym-9/sym833.cur'), auto; }
+        body { font-family: 'Quicksand', sans-serif; background: var(--warm-cream); color: #5a5a5a; margin: 0; overflow-x: hidden; }
+
+        @keyframes softFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } }
+        @keyframes tinyShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-2px); } 75% { transform: translateX(2px); } }
+
+        .screen { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; padding: 30px; }
+        .active { display: flex; animation: softFade 1s ease; }
+
+        .cozy-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); padding: 40px; border-radius: 40px; box-shadow: 0 15px 35px rgba(0,0,0,0.03); max-width: 500px; width: 100%; text-align: center; border: 1px solid rgba(255,255,255,0.6); position: relative; }
+        
+        .game-btn { background: white; border: 1.5px solid var(--soft-green); padding: 15px; border-radius: 20px; margin: 8px; width: 100%; transition: 0.3s; font-family: 'Quicksand'; font-weight: 500; cursor: pointer; color: #555; }
+        .game-btn:hover { background: var(--soft-green); transform: translateY(-2px); }
+        .nav-btn { background: var(--ghibli-pink); color: white; border: none; margin-top: 20px; font-family: 'Pacifico'; font-size: 1.1rem; }
+
+        .game-text { font-size: 1.25rem; min-height: 120px; display: flex; align-items: center; justify-content: center; color: #444; margin-bottom: 20px; line-height: 1.6; padding: 0 10px; }
+        .love-note { position: fixed; font-size: 0.85rem; color: var(--dusty-rose); pointer-events: none; transition: 2s; z-index: 1000; font-weight: 500; }
+        .heart-beat { animation: heartbeat 3s infinite; display: inline-block; color: var(--ghibli-pink); }
+    </style>
+</head>
+<body onclick="spawnNote(event)">
+
+    <div id="s1" class="screen active">
+        <h2 style="font-family:'Pacifico'; color: var(--dusty-rose);">“How are you feeling, Akkie?”</h2>
+        <div class="cozy-card">
+            <button class="game-btn" onclick="chooseMood('Happy')">Happy 😊</button>
+            <button class="game-btn" onclick="chooseMood('Tired')">Tired 😴</button>
+            <button class="game-btn" onclick="chooseMood('Missing')">Missing you 💭</button>
+            <button class="game-btn" onclick="chooseMood('Overwhelmed')">Overwhelmed 🫂</button>
+        </div>
+    </div>
+
+    <div id="s2" class="screen">
+        <div class="cozy-card">
+            <p id="moodMessage" style="font-size: 1.1rem; line-height: 1.8;"></p>
+            <button class="game-btn nav-btn" onclick="show(3)">Let's Play ✨</button>
+        </div>
+    </div>
+
+    <div id="s3" class="screen">
+        <h2 style="font-family:'Pacifico'; color: var(--dusty-rose);">This or That</h2>
+        <div class="cozy-card">
+            <div id="ttDisplay" class="game-text">Sunset picnics or Late night drives?</div>
+            <button class="game-btn" onclick="nextItem('tt')">Next Choice ☁️</button>
+            <button class="game-btn nav-btn" onclick="show(4)">Would You Rather? →</button>
+        </div>
+    </div>
+
+    <div id="s4" class="screen">
+        <h2 style="font-family:'Pacifico'; color: var(--dusty-rose);">Would You Rather</h2>
+        <div class="cozy-card">
+            <div id="wyrDisplay" class="game-text">WYR always have to sing what you say or dance when you walk?</div>
+            <button class="game-btn" onclick="nextItem('wyr')">Next Dilemma 🌊</button>
+            <button class="game-btn nav-btn" style="background:var(--sky); color:#555" onclick="show(5)">Truth or Dare? →</button>
+        </div>
+    </div>
+
+    <div id="s5" class="screen">
+        <h2 style="font-family:'Pacifico'; color: var(--dusty-rose);">Truth or Dare</h2>
+        <div class="cozy-card">
+            <div id="tdDisplay" class="game-text">Your turn, Baccha...</div>
+            <div style="display:flex; gap:10px;">
+                <button class="game-btn" onclick="getTD('truth')">Truth 📖</button>
+                <button class="game-btn" onclick="getTD('dare')">Dare 🔥</button>
+            </div>
+            <button class="game-btn nav-btn" onclick="show(6)">Open the Letter ✉️</button>
+        </div>
+    </div>
+
+    <div id="s6" class="screen">
+        <div class="shaking-letter" style="font-size: 80px; animation: tinyShake 0.5s infinite; cursor:pointer;" onclick="show(7)">✉️</div>
+        <p style="margin-top:20px; font-family:'Pacifico';">I love you so much...</p>
+    </div>
+
+    <div id="s7" class="screen">
+        <div class="cozy-card">
+            <h2 style="font-family:'Pacifico'; color: var(--dusty-rose);">Happy 2026, Akkie.</h2>
+            <p>I hope this site made you smile. You're my favorite person to do absolutely nothing with. <span class="heart-beat">💖</span></p>
+            <button class="game-btn nav-btn" onclick="location.href='index.html'">Back Home ❤️</button>
+        </div>
+    </div>
+
+    <script>
+        const content = {
+            tt: [
+                "Hand holding or Arm around the waist?", "Lego building date or Painting date?",
+                "Matching hoodies or Matching PJs?", "Neck kisses or Forehead kisses?",
+                "Calling you 'Baby' or 'Akkie'?", "Cozy cafe date or Movie night at home?",
+                "Waking up together or Falling asleep together?", "Holding hands in public or Private cuddles?",
+                "Cooking for me or Me cooking for you?", "Deep talks at 3 AM or Silly jokes at 3 PM?",
+                "Surprise gifts or Planned dates?", "Winter snuggles or Summer walks?"
+            ],
+            wyr: [
+                "WYR let me dress you for a week or you dress me for a month?",
+                "WYR give up your phone for a week or not see me for a week?",
+                "WYR have to speak in rhymes or never speak at all around me?",
+                "WYR be able to teleport to me once a month or see me every day through a window?",
+                "WYR always be 10 minutes late or 20 minutes early to our dates?",
+                "WYR have a house in the mountains or a cottage by the beach with me?",
+                "WYR we only communicate via voice notes or only via handwritten letters?",
+                "WYR share a toothbrush with me or share a pillow forever?",
+                "WYR always have to hold my hand or always have to have your head on my shoulder?"
+            ],
+            truth: [
+                "What was your honest first thought when you saw me?", "What is one thing I do that always makes you blush?",
+                "What song reminds you of us the most?", "What is the sweetest thing you've ever imagined us doing?",
+                "If we could go anywhere in the world right now, where would it be?", "What's a secret habit you have that I don't know yet?",
+                "What's the best compliment you've ever received from me?", "What's the one thing you miss most about me right now?"
+            ],
+            dare: [
+                "Voice note me saying 3 things you love about me.", "Send me the most random/funny photo in your gallery.",
+                "Text me 'I love Snigdha' 5 times in a row right now.", "Take a selfie with a goofy face and send it.",
+                "Tell me a story about us but only using emojis.", "Send me a link to a song you want us to slow dance to.",
+                "Call me for 1 minute just to say 'I love you' and hang up."
+            ]
+        };
+
+        function show(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('s'+id).classList.add('active');
+        }
+
+        function chooseMood(mood) {
+            const m = document.getElementById('moodMessage');
+            const messages = {
+                'Happy': "Your happiness is my favorite thing. Let's keep that smile on your face all through 2026, okay?",
+                'Tired': "Close your eyes. Imagine I'm there giving you the softest hug. Take all the time you need to rest.",
+                'Missing': "I'm right here with you, always. Distance is just a test of how far love can travel.",
+                'Overwhelmed': "Take a deep breath. You don't have to carry it all. I'm right here to hold your hand."
+            };
+            m.innerText = messages[mood];
+            show(2);
+        }
+
+        function nextItem(type) {
+            const arr = content[type];
+            let current = document.getElementById(type + 'Display').innerText;
+            let next = arr[Math.floor(Math.random() * arr.length)];
+            while (next === current) { next = arr[Math.floor(Math.random() * arr.length)]; }
+            document.getElementById(type + 'Display').innerText = next;
+        }
+
+        function getTD(type) {
+            const arr = content[type];
+            document.getElementById('tdDisplay').innerText = (type === 'truth' ? "TRUTH: " : "DARE: ") + arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function spawnNote(e) {
+            const notes = ["I love you so much", "You're my person", "I hope you're smiling", "I'm always here", "Akkie + Snigdha forever", "You're so cute", "Happy 2026!"];
+            const note = document.createElement('div');
+            note.className = 'love-note';
+            note.innerText = notes[Math.floor(Math.random() * notes.length)];
+            note.style.left = e.clientX + 'px';
+            note.style.top = e.clientY + 'px';
+            document.body.appendChild(note);
+            setTimeout(() => { note.style.opacity = '1'; }, 100);
+            setTimeout(() => { note.style.opacity = '0'; setTimeout(() => note.remove(), 2000); }, 3000);
+        }
+    </script>
+</body>
+</html>
