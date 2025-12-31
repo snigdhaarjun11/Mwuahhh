@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Mero Mutu - Aksheen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --soft-pink: #ffdde1; --deep-pink: #ee9ca7; --navy: #001d3d;
+            --gold: #ffc300; --pastel-blue: #a8dadc; --lavender: #e0c3fc; --mint: #d4f1f4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: url('https://cur.cursors-4u.net/symbols/sym-9/sym833.cur'), auto; }
+        body { font-family: 'Quicksand', sans-serif; background: var(--soft-pink); color: #444; overflow-x: hidden; }
+
+        /* --- Animations --- */
+        @keyframes floatUp { 0% { transform: translateY(0) rotate(0); opacity: 1; } 100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes heartBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        @keyframes pulse { 0% { opacity: 0.4; transform: scale(1); } 50% { opacity: 1; transform: scale(1.4); } 100% { opacity: 0.4; transform: scale(1); } }
+
+        .particle { position: fixed; pointer-events: none; animation: floatUp 5s linear infinite; z-index: 1000; }
+        .sticker { position: absolute; font-size: 2.5rem; opacity: 0.5; animation: bounce 3s ease-in-out infinite alternate; pointer-events: none; z-index: 1; }
+
+        /* --- Layout --- */
+        .page { display: none; min-height: 100vh; width: 100%; padding: 40px 20px; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: absolute; top: 0; left: 0; }
+        .page.active { display: flex; animation: fadeIn 0.8s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .btn { background: white; border: none; padding: 15px 30px; border-radius: 50px; font-family: 'Pacifico', cursive; font-size: 1.1rem; color: var(--deep-pink); box-shadow: 0 8px 15px rgba(0,0,0,0.1); transition: 0.3s; z-index: 10; margin: 8px; width: 280px; max-width: 95%; }
+        .btn:hover { transform: scale(1.05); background: var(--deep-pink); color: white; }
+
+        .letter-box { max-width: 600px; background: white; padding: 40px 25px; border-radius: 30px; border: 2px dashed var(--soft-pink); text-align: left; line-height: 1.8; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        
+        /* --- Countdown --- */
+        .countdown-container { display: flex; gap: 8px; margin: 20px 0; }
+        .count-unit { background: rgba(255,255,255,0.15); border: 1px solid var(--gold); padding: 10px; border-radius: 12px; min-width: 60px; }
+        .count-num { font-size: 1.4rem; color: var(--gold); display: block; font-weight: bold; }
+        .count-lab { font-size: 0.6rem; color: white; text-transform: uppercase; }
+
+        /* --- Lists --- */
+        .list-container { width: 100%; max-width: 500px; display: flex; flex-direction: column; align-items: center; padding-bottom: 100px; }
+        .list-item { background: white; margin-bottom: 12px; padding: 15px; border-radius: 15px; display: flex; align-items: center; opacity: 0; transform: translateY(20px); transition: 0.6s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); width: 100%; text-align: left; }
+        .list-item.visible { opacity: 1; transform: translateY(0); }
+        .list-item::before { content: '🌸'; margin-right: 12px; }
+
+        /* --- Elements --- */
+        .sparkle-secret { position: absolute; bottom: 35%; right: 20%; font-size: 40px; cursor: pointer; animation: pulse 2s infinite; z-index: 100; }
+        .back-btn { position: fixed; bottom: 20px; left: 20px; width: auto; font-size: 0.9rem; padding: 10px 20px; }
+
+        #parallax-container { height: 250vh; width: 100%; position: relative; background: linear-gradient(to bottom, #ffffff, #fff0f5); }
+        .parallax-flower { position: absolute; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop><source src="LAHAU_HAJARAU_URL.mp3" type="audio/mpeg"></audio>
+
+    <div id="page1" class="page active">
+        <div id="typewriter1" style="font-size: 1.8rem; max-width: 80%; font-weight: 600;"></div>
+        <button id="btn1" class="btn" style="display:none; margin-top:30px;" onclick="nextPage(2)">Click here ❤️</button>
+    </div>
+
+    <div id="page2" class="page">
+        <div style="font-size: 100px; cursor: pointer;" onclick="openLetter()">✉️</div>
+        <p style="font-family:'Pacifico'; font-size: 1.5rem; margin-top: 15px; color: var(--deep-pink);">Aksheen, open this...</p>
+    </div>
+
+    <div id="page3" class="page" style="display:none; overflow-y: auto; background: #fffdf9;">
+        <div class="letter-box">
+            <h2 style="font-family:'Pacifico'; color: var(--deep-pink);">My Lovie,</h2><br>
+            <p>I was just sitting here thinking about how much my life has changed since this past April. It’s crazy to think that I’ve only known you for a few months, because it feels like my heart has known yours forever. 
+            <br><br>
+            Aksheen, since the moment I met you, you’ve been the absolute light of my life. You didn’t just make my year better; you made my whole life better. Before you, everything was just... ordinary. But with you, Akkie, everything has a glow to it. 
+            <br><br>
+            Mero mutu, I can’t even put into words how lucky I feel to have you by my side. Thank you for being my safe space, my best friend, and my favorite person to laugh with. You’ve turned 2025 into a year I’ll never forget, and I am so incredibly proud to be yours. 
+            <br><br>
+            I'm ready for every beautiful moment we’re going to create in 2026. I love you more than words could ever say.
+            </p>
+            <button class="btn" style="width:100%; margin-top: 30px;" onclick="nextPage(4)">To the Moon? 🌙</button>
+        </div>
+    </div>
+
+    <div id="page4" class="page" style="background:#0b0d17; color:white;">
+        <img src="https://cdn-icons-png.flaticon.com/512/180/180766.png" style="width:150px; filter:drop-shadow(0 0 20px #fff); animation: heartBeat 4s infinite;">
+        <h2 style="font-family:'Pacifico'; font-size: 2.2rem; margin-top: 20px;">I love you to the moon and back, Akkie :))</h2>
+        <div style="position: absolute; bottom: 40px; right: 40px; cursor: pointer;" onclick="nextPage(5)">Next ➡️</div>
+    </div>
+
+    <div id="page5" class="page" style="background:var(--navy); color:white;">
+        <div class="sparkle-secret" onclick="alert('I am so lucky to have you, Akkie! You are my absolute favorite person. ❤️')">✨</div>
+        <h1 style="font-size: 2.5rem; text-shadow: 0 0 15px #fff;">Happy New Year, Baccha!!</h1>
+        <div class="countdown-container">
+            <div class="count-unit"><span id="days" class="count-num">00</span><span class="count-lab">Days</span></div>
+            <div class="count-unit"><span id="hours" class="count-num">00</span><span class="count-lab">Hrs</span></div>
+            <div class="count-unit"><span id="mins" class="count-num">00</span><span class="count-lab">Min</span></div>
+            <div class="count-unit"><span id="secs" class="count-num">00</span><span class="count-lab">Sec</span></div>
+        </div>
+        <div id="typewriter2" style="font-size: 1.2rem; margin: 20px 0; max-width: 85%;"></div>
+        <div style="font-size: 80px; animation: bounce 2s infinite; cursor: pointer;" onclick="zoomTransition()">🎁</div>
+    </div>
+
+    <div id="page6" class="page" style="background:var(--mint); overflow-y: auto;">
+        <h2 style="font-family:'Pacifico'; margin-bottom: 25px;">For my Mero Mutu...</h2>
+        <button class="btn" onclick="nextPage('reasonsPage')">26 Reasons I Love You</button>
+        <button class="btn" onclick="nextPage('todoPage')">2026 Plans With You</button>
+        <button class="btn" onclick="nextPage('complimentsPage')">26 Compliments For You</button>
+        <button class="btn" onclick="nextPage('onlinePage')">Things We Can Do Online</button>
+        <button class="btn" style="background:var(--lavender); margin-top: 20px;" onclick="nextPage(8)">The Last Surprise 🌸</button>
+    </div>
+
+    <div id="reasonsPage" class="page" style="display:none; overflow-y:auto; background:#fff5f5;">
+        <h2 style="font-family:'Pacifico'; margin: 40px 0;">26 reasons I'll be loving you in 2026</h2>
+        <div id="reasonsList" class="list-container"></div>
+        <button class="btn back-btn" onclick="nextPage(6)">⬅️ Go back</button>
+    </div>
+
+    <div id="todoPage" class="page" style="display:none; overflow-y:auto; background:#f0faff;">
+        <h2 style="font-family:'Pacifico'; margin: 40px 0;">Things I wanna do with you in 2026</h2>
+        <div id="todoList" class="list-container"></div>
+        <button class="btn back-btn" onclick="nextPage(6)">⬅️ Go back</button>
+    </div>
+
+    <div id="complimentsPage" class="page" style="display:none; overflow-y:auto; background:#fdf2f2;">
+        <h2 style="font-family:'Pacifico'; margin: 40px 0;">26 Compliments for you</h2>
+        <div id="complimentsList" class="list-container"></div>
+        <button class="btn back-btn" onclick="nextPage(6)">⬅️ Go back</button>
+    </div>
+
+    <div id="onlinePage" class="page" style="display:none; overflow-y:auto; background:#f0f7f4;">
+        <h2 style="font-family:'Pacifico'; margin-top: 40px;">Things we can do online</h2>
+        <p style="margin-bottom: 30px; font-weight: 600;">(Because we always have nothing to do :))</p>
+        <div id="onlineList" class="list-container"></div>
+        <button class="btn back-btn" onclick="nextPage(6)">⬅️ Go back</button>
+    </div>
+
+    <div id="page8" class="page" style="display:none; overflow-y:auto; background:white;">
+        <div id="parallax-container">
+            <div class="parallax-flower" data-speed="0.2" style="top:15%; left:10%; font-size:60px;">🌸</div>
+            <div class="parallax-flower" data-speed="0.5" style="top:35%; right:15%; font-size:80px;">🌷</div>
+            <div class="parallax-flower" data-speed="0.3" style="top:60%; left:20%; font-size:70px;">🌺</div>
+            <div style="position: sticky; top: 45vh; width: 100%;">
+                <h1 style="font-family:'Pacifico'; font-size: 3rem; color:var(--deep-pink);">Flowers for my favorite baby</h1>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const reasons = ["The way you say my name", "Your laugh is my favorite song", "How safe I feel with you, Akkie", "You're my best friend first", "Your kindness to everyone", "The way you support my dreams", "Our inside jokes that no one else gets", "How handsome you look every single day", "Your patience with me", "Mero mutu, you complete me", "You're my favorite person to talk to", "How you make me feel special", "Your Good Morning texts are my life", "The way you listen to me", "You make me a better person", "I love our late-night calls", "You're the first person I tell everything to", "How you remember the small things", "You are literally so funny", "The way you look at me", "Your cozy hoodies", "You're my favorite notification", "You're my 'person' forever", "I love your goofy side", "Because you are Aksheen, and there's no one like you", "Every day with you is a blessing"];
+        
+        const todo = [
+            "Watch the sunset together", "Go on a cafe date", "Have a movie marathon", "Paint together", "Bake something together", "Kiss on new years", "Star gaze", "Celebrate our one years :)))", "Spend at least ONE night cuddling", "Force you to sing cringe songs for me", "Let me cook for you", "Build LEGO together", "Let me give you a spa day", "Go on a walk", "Craft something together", "Kiss in the rain", "DANCE in the rain", "Dress head to toe in ur clothes", "Let me make your Christmas really really special", "Annoy eachother every single day", "Stay up talking irl", "Matching jewelleryy", "Study together", "Pick flowers together", "Play a board game", "Love eachother every single day"
+        ];
+        
+        const compliments = ["You have the most beautiful soul", "Your smile lights up my entire world", "You are so incredibly smart", "You are my favorite person to talk to", "I love how passionate you are", "You are the most handsome boy I've ever seen", "You make me feel so safe", "You are so kind-hearted", "I love your sense of humor", "You are my absolute favorite human", "You have such a calming presence", "You are so strong", "I'm so proud of the person you are", "You are so thoughtful", "Your laugh is infectious", "You are one of a kind", "You make everything better just by being there", "You are my dream come true", "You have such a warm heart", "I love how you care for me", "You are my favorite notification", "You are so talented", "You have the most amazing eyes", "You are so supportive", "You are my home", "You are enough, exactly as you are"];
+        
+        const online = ["Play Roblox together", "Watch a movie on a call", "Play 8-Ball Pool", "Compete in phone games", "Do a personality quiz together", "Make a collaborative Spotify playlist", "Play online Chess", "Explore the world on maps together", "Play Skribbl.io", "Draw together on an online whiteboard", "Start a Minecraft world", "Do a virtual tour", "Play 20 Questions", "Have a PowerPoint night", "Learn a dance over video call", "Play 'Among Us'", "Look at dream houses online", "Read the same book and discuss it", "Play 'Truth or Dare'", "Do a 'Guess the Song' challenge", "Virtual Picnic on Video Call", "Play Gartic Phone", "Look at our old photos together", "Plan our future trips on Pinterest", "Play online Uno", "Just stay on mute and enjoy each other's presence"];
+
+        function populate(id, arr) {
+            const list = document.getElementById(id);
+            arr.forEach(t => { const d = document.createElement('div'); d.className = 'list-item'; d.innerText = t; list.appendChild(d); });
+        }
+
+        function nextPage(id) {
+            document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
+            const n = (typeof id === 'string') ? document.getElementById(id) : document.getElementById('page'+id);
+            n.style.display = 'flex'; setTimeout(() => n.classList.add('active'), 50);
+            if(id === 5) typeWriter("typewriter2", "I can't wait to spend another year with you, Akkie... and finally hit 2026 together!", 70);
+            window.scrollTo(0,0);
+        }
+
+        function typeWriter(id, text, speed, cb) {
+            let i = 0; const el = document.getElementById(id); el.innerHTML = "";
+            function t() { if(i < text.length){ el.innerHTML += text.charAt(i); i++; setTimeout(t, speed); } else if(cb) cb(); }
+            t();
+        }
+
+        function openLetter() { document.getElementById('bgMusic').play().catch(()=>{}); nextPage(3); }
+        function zoomTransition() {
+            const g = document.querySelector('#page5 div[onclick]');
+            g.style.transition = "transform 0.8s ease-in"; g.style.transform = "scale(100)";
+            setTimeout(() => { nextPage(6); g.style.transform="scale(1)"; }, 800);
+        }
+
+        function countdown() {
+            const diff = new Date('2026-01-01T00:00:00') - new Date();
+            if(diff <= 0) return;
+            document.getElementById('days').innerText = String(Math.floor(diff/(1000*60*60*24))).padStart(2,'0');
+            document.getElementById('hours').innerText = String(Math.floor((diff/(1000*60*60))%24)).padStart(2,'0');
+            document.getElementById('mins').innerText = String(Math.floor((diff/1000/60)%60)).padStart(2,'0');
+            document.getElementById('secs').innerText = String(Math.floor((diff/1000)%60)).padStart(2,'0');
+        }
+
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.list-item').forEach(el => { if(el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add('visible'); });
+            document.querySelectorAll('.parallax-flower').forEach(el => { el.style.transform = `translateY(${window.pageYOffset * el.dataset.speed}px)`; });
+        });
+
+        window.onload = () => {
+            populate('reasonsList', reasons); populate('todoList', todo); 
+            populate('complimentsList', compliments); populate('onlineList', online);
+            setInterval(countdown, 1000);
+            typeWriter("typewriter1", "Hi Baby... Here's a little reminder of my maya for you :))", 80, () => {
+                setTimeout(() => document.getElementById('btn1').style.display='inline-block', 500);
+            });
+            for(let i=0; i<12; i++) {
+                const s = document.createElement('div'); s.className = 'sticker'; s.innerHTML = ['🧸','⭐','🎈','🧁'][i%4];
+                s.style.left = Math.random()*90+'vw'; s.style.top = Math.random()*150+'vh';
+                document.getElementById('todoPage').appendChild(s);
+            }
+        };
+
+        setInterval(() => {
+            const p = document.createElement('div'); p.className = 'particle'; p.innerHTML = '❤️';
+            p.style.left = Math.random()*100+'vw'; p.style.top = '100vh'; document.body.appendChild(p);
+            setTimeout(() => p.remove(), 5000);
+        }, 700);
+    </script>
+</body>
+</html>
